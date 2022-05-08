@@ -24,7 +24,7 @@
     ```
     For each animal, the name should be changed in the **.sbatch** script.(3 places in total)   
 \
-    **Important**: Each time the **address** in **scripts/template.sh Line22** need to be changed if running in the same node.
+    Remeber to change the index number and slurm setting parameters.
 \
     The whole animal name list is contained in **val_split_list.py**
 
