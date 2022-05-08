@@ -130,7 +130,7 @@ class MeshPredictor(object):
 
         # save all hypos
         for i,verts in enumerate(states['mean_v']):
-            trimesh.Trimesh(vertices=np.asarray(self.model.symmetrize(verts).cpu()), faces=np.asarray(states['faces'])).export('tmp/%d.ply'%i)
+            trimesh.Trimesh(vertices=np.asarray(self.model.symmetrize(verts).cpu()), faces=np.asarray(states['faces'])).export('tmp/{}/{}.ply'.format(self.opts.dataname))
             
 
         states['mean_v'] = states['mean_v'][optim_cam:optim_cam+1]

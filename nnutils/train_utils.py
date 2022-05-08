@@ -429,12 +429,13 @@ class LASRTrainer(Trainer):
         pretrained_dict = states
 
         if (not self.opts.symmetric) and (int(self.opts.n_faces)!=states['faces'].shape[0]):
-            sr.Mesh(states['mean_v'], states['faces']).save_obj('tmp/input-%d.obj'%(self.opts.local_rank))
+            os.makedirs('tmp/{}'.format(self.opts.dataname),exist_ok=True)
+            sr.Mesh(states['mean_v'], states['faces']).save_obj('tmp/{}/input-{}.obj'.format(self.opts.dataname,self.opts.local_rank))
             import subprocess
-            print(subprocess.check_output(['./Manifold/build/manifold', 'tmp/input-%d.obj'%(self.opts.local_rank), 'tmp/output-%d.obj'%(self.opts.local_rank), '10000']))
-            print(subprocess.check_output(['./Manifold/build/simplify', '-i', 'tmp/output-%d.obj'%(self.opts.local_rank), '-o', 'tmp/simple-%d.obj'%(self.opts.local_rank), '-m', '-f', self.opts.n_faces]))
+            print(subprocess.check_output(['./Manifold/build/manifold', 'tmp/{}/input-{}.obj'.format(self.opts.dataname,self.opts.local_rank), 'tmp/{}/output-{}.obj'.format(self.opts.dataname,self.opts.local_rank), '10000']))
+            print(subprocess.check_output(['./Manifold/build/simplify', '-i', 'tmp/{}/output-{}.obj'.format(self.opts.dataname,self.opts.local_rank), '-o', 'tmp/{}/simple-{}.obj'.format(self.opts.dataname,self.opts.local_rank), '-m', '-f', self.opts.n_faces]))
             # load remeshed
-            loadmesh = sr.Mesh.from_obj('tmp/simple-%d.obj'%(self.opts.local_rank))
+            loadmesh = sr.Mesh.from_obj('tmp/{}/simple-{}.obj'.format(self.opts.dataname,self.opts.local_rank))
             # pdb.set_trace()
             mean_shape = loadmesh.vertices[0]
             self.model.faces  = loadmesh.faces[0]

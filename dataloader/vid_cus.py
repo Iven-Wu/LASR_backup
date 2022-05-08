@@ -144,7 +144,7 @@ def data_loader(opts, shuffle=True,capdata=None):
     dframe = 1
     init_frame = 1
 
-    end_frame = 178
+    end_frame = 31
     can_frame = 0
 
     # pdb.set_trace()
